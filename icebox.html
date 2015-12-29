@@ -36,7 +36,12 @@
         document.getElementById('addr').innerHTML = ''
         for (var i=0; i<addresses.length; ++i) {
           document.getElementById('addr').innerHTML += '<div>' + addresses[i] + '</div>'
-          addrString += addresses[i] + '_';
+          if (i != (addresses.length-1)) {
+            addrString += addresses[i] + '_';
+          }
+          else {
+            addrString += addresses[i];
+          }
         }
         
         // Add link to Workflow app
