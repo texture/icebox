@@ -1,4 +1,7 @@
 <html>
+<head>
+<title>icebox</title>
+</head>
   <body>
     <script src="./node_modules/eth-lightwallet/dist/lightwallet.min.js"></script>
     <script>
@@ -36,7 +39,7 @@
         document.getElementById('addr').innerHTML = ''
         for (var i=0; i<addresses.length; ++i) {
           document.getElementById('addr').innerHTML += '<div>' + addresses[i] + '</div>'
-          if (i != (addresses.length-1)) {
+          if (i !== (addresses.length-1)) {
             addrString += addresses[i] + '_';
           }
           else {
