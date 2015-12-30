@@ -5,9 +5,9 @@ Lightwallet-powered cold storage solution.
 ## Introduction
 
 Icebox is a simple Ether cold storage solution based on
-[Lightwallet][]. It makes it easy to securely generate new keys and
-addresses on an airgapped device as well as spend from those
-addresses.
+[Lightwallet](https://github.com/ConsenSys/eth-lightwallet). It makes
+it easy to securely generate new keys and addresses on an airgapped
+device as well as spend from those addresses.
 
 ## Security Warning
 
@@ -90,7 +90,7 @@ Ethereum addresses don't have checksums. Always copy the address from
 a QR code or from a USB stick if on an airgapped computer. You also
 need to enter the nonce of the address you're sending from. You can
 find the nonce of an address using a block explorer like
-[EtherCamp](http://ether.camp).
+[EtherCamp](https://live.ether.camp/).
 
 Once you hit "Create Transaction" a signed transaction is created and
 displayed. You can now take this signed transaction and transmit it to
