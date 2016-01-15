@@ -13,6 +13,7 @@
     }
   ],
   "dependencies": {
-    "eth-lightwallet": "^1.0.1"
+    "eth-lightwallet": "^1.0.1",
+    "web3" : "*"
   }
 }

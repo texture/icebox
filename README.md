@@ -95,10 +95,10 @@ find the nonce of an address using a block explorer like
 Once you hit "Create Transaction" a signed transaction is created and
 displayed. You can now take this signed transaction and transmit it to
 the network, for instance using `web3.eth.sendRawTransaction(tx)` in
-the geth console. If you're using an airgapped computer you can use a
-USB stick to transfer the signed transaction out, or if you're using
-an iOS device you can use the Workflow App which will display the
-transaction as a QR code.
+the geth console, or using the bundled website `sendtx.html`. If
+you're using an airgapped computer you can use a USB stick to transfer
+the signed transaction out, or if you're using an iOS device you can
+use the Workflow App which will display the transaction as a QR code.
 
 ## Workflow App
 

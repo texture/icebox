@@ -1,0 +1,22 @@
+<html>
+<head>
+<title>icebox - send tx</title>
+</head>
+  <body>
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+    <script>
+
+      function sendTx() {
+        var web3 = new Web3();
+        var web3prov = new web3.providers.HttpProvider('http://localhost:8545');
+        web3.setProvider(web3prov);
+        var rawtx = document.getElementById('rawSignedTx').value;
+        web3.eth.sendRawTransaction(rawtx);
+      }
+
+    </script>
+    <h1>Send Transaction</h1>
+    <div><textarea id='rawSignedTx' rows=6 cols=40></textarea></div>
+    <button onclick="sendTx()">Send Transaction</button>
+  </body>
+</html>
