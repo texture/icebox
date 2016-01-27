@@ -14,27 +14,24 @@ device as well as spend from those addresses.
 The security of Icebox relies on the computer it's running on being
 disconnected from the internet at all times. If you run it on an
 internet-connected computer all security guarantees go out the
-window. Always make sure to close the browser once you're done with
+window. Always make sure to close the browser when you're done with
 your session.
 
 ## Installation
 
 ```
-git clone ...
+git clone https://github.com/ConsenSys/icebox.git
 sudo npm install
+npm run build
 ```
 
-Now open `icebox.html` in a browser.
+Now open `dist/icebox.html` in a browser.
 
 ## Installation on an airgapped computer
 
-Put the file `icebox.html` and the lightwallet distributable file
-`lightwallet.min.js` on a USB stick and transfer the files to the
-airgapped computer. The lightwallet file must be in a directory
+Put the `dist` folder and its files on a USB stick and transfer the
+files to the airgapped computer. Then open the file `icebox.html`.
 
-```
-node_modules/eth-lightwallet/dist/
-```
 
 ## Installation on iOS
 
@@ -111,4 +108,7 @@ Extension" and defined as follows:
 * TransactionQR: Generate QR Code, Quick Look
 
 When spending from the cold addresses it's also good to have a
-workflow that reads a QR code and copies the corresponding info to the Clipboard.
+workflow in the Workflow app that reads a QR code of the destination
+address and copies the corresponding info to the Clipboard. This is to
+avoid having to type in the destination address manually **which you
+should NEVER do.**
