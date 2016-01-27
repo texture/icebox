@@ -1,6 +1,6 @@
 {
   "name": "icebox",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Lightwallet-powered cold storage solution",
   "repository" : {
     "type" : "git",
@@ -12,6 +12,9 @@
       "email": "christian.lundkvist@consensys.net"
     }
   ],
+  "scripts": {
+    "build": "cp node_modules/eth-lightwallet/dist/lightwallet.min.js dist/lightwallet.min.js && cp icebox.html dist/icebox.html"
+  },
   "dependencies": {
     "eth-lightwallet": "^1.0.1",
     "web3" : "*"
