@@ -62,7 +62,8 @@ roll a set of 5 dice 10 times to create a string like this:
 ```
 
 A popup will appear with your 12 word seed. Write this down on a piece
-of paper and/or memorize it.
+of paper and/or memorize it. Select a password, this password will be
+used to encrypt the wallet in the browser during the session.
 
 ### Restoring wallet from seed
 

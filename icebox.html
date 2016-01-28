@@ -8,14 +8,10 @@
 
       var global_keystore;
       
-      // Usecase is enter seed, use once, then clear browser
-      // So password is not useful
-      var global_password = 'password';
-
       function newAddresses(password) {
         
         if (password == '') {
-          password = prompt('Enter password to retrieve addresses', 'Password');
+          password = prompt('Enter password to retrieve addresses', '');
         }
 
         var numAddr = parseInt(document.getElementById('numAddr').value)
@@ -53,13 +49,15 @@
       }
 
       function setSeed() {
+
+        var password = prompt('Enter password to encrypt your seed for this session', '');
         global_keystore = new lightwallet.keystore(
           document.getElementById('seed').value, 
-          global_password);
+          password);
 
         document.getElementById('seed').value = ''
         
-        newAddresses(global_password);
+        newAddresses(password);
       }
 
       function newWallet() {
@@ -68,22 +66,24 @@
         var randomSeed = lightwallet.keystore.generateRandomSeed(extraEntropy);
 
         var infoString = 'Your new wallet seed is: "' + randomSeed + 
-          '". Please write it down on paper, you will need it to access your wallet. Do not let anyone see this seed or they can take your Ether.'
-        alert(infoString);
+          '". Please write it down on paper, you will need it to access your wallet. Do not let anyone see this seed or they can take your Ether. Please chooses a password to encrypt your wallet for this session.'
+        var password = prompt(infoString, '');
         global_keystore = new lightwallet.keystore(
           randomSeed,
-          global_password);
+          password);
                 
-        newAddresses(global_password);
+        newAddresses(password);
         showAddresses();
       }
 
       function showSeed() {
-        var seed = global_keystore.getSeed(global_password);
+        var password = prompt('Enter your password to show your seed.', '');
+        var seed = global_keystore.getSeed(password);
         alert('Your seed is: "' + seed + '". Please write it down.');
       }
 
       function sendEth() {
+        var password = prompt('Enter password to create and sign transaction', '');
         var fromAddr = document.getElementById('sendFrom').value
         var toAddr = document.getElementById('sendTo').value
         var valueEth = document.getElementById('sendValueAmount').value
@@ -92,7 +92,7 @@
         var gasPrice = parseInt(document.getElementById('gasPrice').value)
         var gas = 30000
         var rawUnsignedTx = lightwallet.txutils.valueTx({to: toAddr, value: value, gasPrice: gasPrice, gasLimit: gas, nonce: nonce})
-        var rawSignedTx = global_keystore.signTx(rawUnsignedTx, global_password, fromAddr)
+        var rawSignedTx = global_keystore.signTx(rawUnsignedTx, password, fromAddr)
         document.getElementById('rawSignedTx').value = rawSignedTx
 
         // Add link to Workflow app
@@ -107,7 +107,7 @@
     <h2>Restore Wallet</h2>
     <div><input type="text" id="seed" value="" size="80"></input><button onclick="setSeed()">Restore wallet from Seed</button></div>
     <h2>Show Addresses</h2>
-    <div>Show <input type="text" id="numAddr" size="5" value="3"></input> more address(es) <button onclick="newAddresses(global_password)">Show</button></div>
+    <div>Show <input type="text" id="numAddr" size="5" value="3"></input> more address(es) <button onclick="newAddresses('')">Show</button></div>
     <div id="addr"></div>
     <div id="workflowAddr"></div>
     <h2>Send Ether</h2>
