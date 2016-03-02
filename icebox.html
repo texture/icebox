@@ -14,17 +14,20 @@
           password = prompt('Enter password to retrieve addresses', '');
         }
 
-        var numAddr = parseInt(document.getElementById('numAddr').value)
-        global_keystore.generateNewAddress(password, numAddr);
+        lightwallet.keystore.deriveKeyFromPassword(password, function(err, pwDerivedKey) {
+          var numAddr = parseInt(document.getElementById('numAddr').value)
+          global_keystore.generateNewAddress(pwDerivedKey, numAddr);
 
-        var addresses = global_keystore.getAddresses();
+          var addresses = global_keystore.getAddresses();
 
-        document.getElementById('sendFrom').innerHTML = ''
-        for (var i=0; i<addresses.length; ++i) {
-          document.getElementById('sendFrom').innerHTML += '<option value="' + addresses[i] + '">' + addresses[i] + '</option>'
-        }
+          document.getElementById('sendFrom').innerHTML = ''
+          for (var i=0; i<addresses.length; ++i) {
+            document.getElementById('sendFrom').innerHTML += '<option value="' + addresses[i] + '">' + addresses[i] + '</option>'
+          }
 
-        showAddresses();
+          showAddresses();
+          
+        })
       }
 
       function showAddresses() {
@@ -51,13 +54,17 @@
       function setSeed() {
 
         var password = prompt('Enter password to encrypt your seed for this session', '');
-        global_keystore = new lightwallet.keystore(
-          document.getElementById('seed').value, 
-          password);
 
-        document.getElementById('seed').value = ''
-        
-        newAddresses(password);
+        lightwallet.keystore.deriveKeyFromPassword(password, function(err, pwDerivedKey) {
+          global_keystore = new lightwallet.keystore(
+            document.getElementById('seed').value, 
+            pwDerivedKey);
+
+          document.getElementById('seed').value = ''
+          
+          newAddresses(password);
+        })
+
       }
 
       function newWallet() {
@@ -67,19 +74,25 @@
 
         var infoString = 'Your new wallet seed is: "' + randomSeed + 
           '". Please write it down on paper, you will need it to access your wallet. Do not let anyone see this seed or they can take your Ether. Please chooses a password to encrypt your wallet for this session.'
+
         var password = prompt(infoString, '');
-        global_keystore = new lightwallet.keystore(
-          randomSeed,
-          password);
-                
-        newAddresses(password);
-        showAddresses();
+        lightwallet.keystore.deriveKeyFromPassword(password, function(err, pwDerivedKey) {
+          global_keystore = new lightwallet.keystore(
+            randomSeed,
+            pwDerivedKey);
+          
+          newAddresses(password);
+          showAddresses();
+        })
+
       }
 
       function showSeed() {
         var password = prompt('Enter your password to show your seed.', '');
-        var seed = global_keystore.getSeed(password);
-        alert('Your seed is: "' + seed + '". Please write it down.');
+        lightwallet.keystore.deriveKeyFromPassword(password, function(err, pwDerivedKey) {
+          var seed = global_keystore.getSeed(pwDerivedKey);
+          alert('Your seed is: "' + seed + '". Please write it down.');
+        })
       }
 
       function sendEth() {
@@ -92,12 +105,15 @@
         var gasPrice = parseInt(document.getElementById('gasPrice').value)
         var gas = 30000
         var rawUnsignedTx = lightwallet.txutils.valueTx({to: toAddr, value: value, gasPrice: gasPrice, gasLimit: gas, nonce: nonce})
-        var rawSignedTx = global_keystore.signTx(rawUnsignedTx, password, fromAddr)
-        document.getElementById('rawSignedTx').value = rawSignedTx
 
-        // Add link to Workflow app
-        var workflowURL = 'workflow://run-workflow?name=TransactionQR&input=text&text='
-        document.getElementById('workflowTx').innerHTML = '<a href="' + workflowURL + rawSignedTx + '">Transaction QR Code (Workflow App)</a>';
+        lightwallet.keystore.deriveKeyFromPassword(password, function(err, pwDerivedKey) {
+          var rawSignedTx = lightwallet.signing.signTx(global_keystore, pwDerivedKey, rawUnsignedTx, fromAddr)
+          document.getElementById('rawSignedTx').value = rawSignedTx
+
+          // Add link to Workflow app
+          var workflowURL = 'workflow://run-workflow?name=TransactionQR&input=text&text='
+          document.getElementById('workflowTx').innerHTML = '<a href="' + workflowURL + rawSignedTx + '">Transaction QR Code (Workflow App)</a>';
+        })
       }
 
     </script>
