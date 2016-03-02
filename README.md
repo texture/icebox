@@ -21,6 +21,7 @@ your session.
 
 ```
 git clone https://github.com/ConsenSys/icebox.git
+cd icebox
 sudo npm install
 npm run build
 ```
