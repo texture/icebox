@@ -3,11 +3,24 @@
 <title>icebox</title>
 </head>
   <body>
+    <link rel="stylesheet" type="text/css" href="icebox.css">
     <script src="./lightwallet.min.js"></script>
     <script>
 
       var global_keystore;
       
+      function entropy(){
+        var ent = "";
+        var buf = new Uint8Array(1);
+        while (ent.length < 256 ){
+          window.crypto.getRandomValues(buf);
+          ent += buf;
+        }
+        return ent;
+      }
+      
+      
+
       function newAddresses(password) {
         
         if (password == '') {
@@ -118,25 +131,46 @@
 
     </script>
     <h1>icebox</h1>
-    <h2>New Wallet</h2>
-    <div><input type="text" id="userEntropy" placeholder="Type random text to generate entropy" size="80"></input><button onclick="newWallet()">Create New Wallet</button></div>
-    <h2>Restore Wallet</h2>
-    <div><input type="text" id="seed" value="" size="80"></input><button onclick="setSeed()">Restore wallet from Seed</button></div>
-    <h2>Show Addresses</h2>
-    <div>Show <input type="text" id="numAddr" size="5" value="3"></input> more address(es) <button onclick="newAddresses('')">Show</button></div>
-    <div id="addr"></div>
-    <div id="workflowAddr"></div>
-    <h2>Send Ether</h2>
-    <div>From: <select id="sendFrom"></select></div>
-    <div>To: <input type="text" size="40" id="sendTo"></input></div>
-    <div>Ether: <input type="text" id="sendValueAmount"></div>
-    <div>Nonce: <input type="text" id="nonce"></div>
-    <div>Gas Price<input type="text" id="gasPrice" value=100000000000></div>
-    <div><button onclick="sendEth()">Create Transaction</button></div>
-    <h3>Signed Transaction</h3>
-    <div><textarea id='rawSignedTx' rows=6 cols=40></textarea></div>
-    <div id='workflowTx'></div>
-    <h2>Show Seed</h2>
-    <button onclick="showSeed()">Show Seed</button>
+    <div class="wrapper">
+      <h2>New Wallet</h2>
+      <h3>Entropy</h3>
+      <div><input type="text" id="userEntropy" placeholder="Type random text to generate entropy" size="80"></input></div>
+      <div class="btn"><button onclick="newWallet()">Create New Wallet</button></div>
+    </div>
+    <div class="wrapper">
+      <h2>Restore Wallet</h2>
+      <h3>Enter Seed</h3>
+      <div><input type="text" id="seed" value="" size="80"></input></div>
+        <div class="btn"><button onclick="setSeed()">Restore wallet from Seed</button></div>
+    </div>
+    <div class="wrapper">
+      <h2>Show Addresses</h2>
+      <div>Show <input type="text" id="numAddr" size="5" value="3"></input> more address(es) </div>
+        <div class="btn"><button onclick="newAddresses('')">Show</button></div>
+      <div id="addr"></div>
+      <div id="workflowAddr"></div>
+    </div>
+    <div class="wrapper">
+      <h2>Send Ether</h2>
+      <div>From: <select id="sendFrom"></select></div>
+      <div>To: <input type="text" size="40" id="sendTo"></input></div>
+      <div>Ether: <input type="text" id="sendValueAmount"></div>
+      <div>Nonce: <input type="text" id="nonce"></div>
+      <div>Gas Price<input type="text" id="gasPrice" value=100000000000></div>
+      <div class="btn"><button onclick="sendEth()">Create Transaction</button></div>
+      <h3>Signed Transaction</h3>
+      <div><textarea id='rawSignedTx' rows=6 cols=40></textarea></div>
+      <div id='workflowTx'></div>
+    </div>
+    <div class="wrapper">
+      <h2>Show Seed</h2>
+      <div class="btn">
+        <button onclick="showSeed()">Show Seed</button>
+      </div>
+     </div>
   </body>
+  <script>
+      document.getElementById("userEntropy").value = entropy();
+  </script>
 </html>
+
